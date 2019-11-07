@@ -1,13 +1,27 @@
 <template>
   <div class="game">
     <div class="side-bar">
-      <div class="settings">Board Size <input type="Number" @change="onChange" v-bind:value="boardSize" min="3" step="1" class="board-size-input"/></div>
-      <score v-bind:scoreX="scoreX" v-bind:scoreO="scoreO"/>
+      <div class="settings">
+        Board Size
+        <input
+          type="Number"
+          @change="onChange"
+          v-bind:value="boardSize"
+          min="3"
+          step="1"
+          class="board-size-input"
+        />
+      </div>
+      <score v-bind:scoreX="scoreX" v-bind:scoreO="scoreO" />
     </div>
     <div class="game-side">
-      <board v-bind:size="boardSize" v-bind:key="boardSize + scoreO + scoreX" v-bind:onWin="onWin"/>
+      <board
+        v-bind:size="boardSize"
+        v-bind:key="boardSize + scoreO + scoreX"
+        v-bind:onWin="onWin"
+      />
       <i-alert :show="winnerVisible" variant="primary">
-        <p>{{winner}} has won!</p>
+        <p>{{ winner }} has won!</p>
       </i-alert>
     </div>
   </div>
@@ -18,22 +32,22 @@ import board from "./board.vue";
 import score from "./score.vue";
 
 export default {
-  name: 'game',
+  name: "game",
   data() {
     return {
       boardSize: 3,
       scoreX: 0,
       scoreO: 0,
       winnerVisible: false,
-      winner: '',
-    }
+      winner: ""
+    };
   },
   components: {
     board,
-    score,
+    score
   },
   methods: {
-    onChange({target}) {
+    onChange({ target }) {
       let newValue = parseInt(target.value);
       if (newValue < 3) {
         newValue = 3;
@@ -41,21 +55,21 @@ export default {
       this.boardSize = newValue;
     },
     onWin(sequenceType) {
-      if (sequenceType === 'X') {
+      if (sequenceType === "X") {
         this.scoreX++;
       }
-      if (sequenceType === 'O') {
+      if (sequenceType === "O") {
         this.scoreO++;
       }
       this.winner = sequenceType;
       this.winnerVisible = true;
-      setTimeout(() => { 
+      setTimeout(() => {
         this.winnerVisible = false;
-        this.winner = '';
+        this.winner = "";
       }, 3000);
     }
   }
-}
+};
 </script>
 
 <style>
@@ -99,5 +113,4 @@ export default {
   justify-content: center;
   display: flex;
 }
-
 </style>

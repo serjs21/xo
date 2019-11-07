@@ -1,5 +1,5 @@
 <template>
-  <div @click="onClick" class="cell">{{value}}</div>
+  <div @click="onClick" class="cell">{{ value }}</div>
 </template>
 
 <script>
@@ -8,15 +8,15 @@ export default {
   data() {
     return {
       prestine: true,
-      value: '',
-    }
+      value: ""
+    };
   },
   props: {
     getValue: Function,
     setValue: Function,
     row: Number,
-    col: Number,
-},
+    col: Number
+  },
   methods: {
     onClick() {
       if (this.prestine) {
@@ -30,7 +30,6 @@ export default {
 </script>
 
 <style scoped>
-
 .cell {
   display: flex;
   justify-content: center;
@@ -39,5 +38,4 @@ export default {
   height: 40px;
   width: 40px;
 }
-
 </style>

@@ -1,23 +1,23 @@
 <template>
   <div class="score">
-      <div class="contender">
+    <div class="contender">
       <i-card>
         <template slot="header">
-          <i-icon icon="times" />          
+          <i-icon icon="times" />
         </template>
-        {{scoreX}}
-    </i-card>
-  </div>
+        {{ scoreX }}
+      </i-card>
+    </div>
 
-  <div class="contender">
-    <i-card>
-      <template slot="header">
-        <i-icon icon="circle" />          
-      </template>
-      {{scoreO}}
-  </i-card>
-</div>
-</div>
+    <div class="contender">
+      <i-card>
+        <template slot="header">
+          <i-icon icon="circle" />
+        </template>
+        {{ scoreO }}
+      </i-card>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -26,15 +26,14 @@ export default {
   data() {
     return {
       prestine: true,
-      value: '',
-    }
+      value: ""
+    };
   },
   props: {
     scoreX: Number,
-    scoreO: Number,
-},
-  methods: {
-  }
+    scoreO: Number
+  },
+  methods: {}
 };
 </script>
 
@@ -54,7 +53,8 @@ export default {
   width: 77px;
 }
 
-.header, .body {
+.header,
+.body {
   padding: 0;
   height: 46px;
   width: 77px;
@@ -66,5 +66,4 @@ export default {
 .body {
   font-weight: 400;
 }
-
 </style>

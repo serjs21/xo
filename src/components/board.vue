@@ -2,17 +2,21 @@
   <div class="board">
     <div class="game-board">
       <div v-for="row in size" v-bind:key="row" class="row">
-      <cell v-for="col in size" 
-      v-bind:key="col" 
-      v-bind:col="col - 1" 
-      v-bind:row="row - 1" 
-      v-bind:setValue="setValue" 
-      v-bind:getValue="getValue"/>
+        <cell
+          v-for="col in size"
+          v-bind:key="col"
+          v-bind:col="col - 1"
+          v-bind:row="row - 1"
+          v-bind:setValue="setValue"
+          v-bind:getValue="getValue"
+        />
+      </div>
     </div>
-</div>
 
-  <div class="turn-display">Current turn: <span class="highlight">{{getValueFromTurn()}}</span></div>
-</div>
+    <div class="turn-display">
+      Current turn: <span class="highlight">{{ getValueFromTurn() }}</span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -21,26 +25,27 @@ import zip from "lodash/zip";
 import map from "lodash/map";
 
 export default {
-  name: 'board',
+  name: "board",
   props: {
     size: {
-      type: Number, default: 4
+      type: Number,
+      default: 4
     },
-    onWin: Function,
+    onWin: Function
   },
   data() {
     return {
       counter: 0,
       oddTurn: true,
-      boardState: this.getCleanBoard(),
-    }
+      boardState: this.getCleanBoard()
+    };
   },
   components: {
     cell
   },
   methods: {
     getValueFromTurn() {
-      return this.oddTurn ? 'X' : 'O';
+      return this.oddTurn ? "X" : "O";
     },
 
     setValue(row, col) {
@@ -48,7 +53,7 @@ export default {
       this.oddTurn = !this.oddTurn;
       this.checkForWin();
     },
-    
+
     getValue(row, col) {
       return this.boardState[row][col];
     },
@@ -72,11 +77,13 @@ export default {
     hasSequence(items) {
       const validitySequence = map(items, (item, idx) => {
         const itemExists = !!item;
-        const identicalToPrevious = !idx || items[idx] === items[idx -1];
+        const identicalToPrevious = !idx || items[idx] === items[idx - 1];
         return itemExists && identicalToPrevious;
       });
 
-      return validitySequence.filter(Boolean).length === items.length ? items[0] : false;
+      return validitySequence.filter(Boolean).length === items.length
+        ? items[0]
+        : false;
     },
 
     getCleanBoard() {
@@ -84,15 +91,20 @@ export default {
     },
 
     checkForWin() {
-      [this.getDiagonal(), this.getOtherDiagonal(), ...this.getRows(), ...this.getCols()].forEach(subSequience => {
-        const sequenceType = this.hasSequence(subSequience)
+      [
+        this.getDiagonal(),
+        this.getOtherDiagonal(),
+        ...this.getRows(),
+        ...this.getCols()
+      ].forEach(subSequience => {
+        const sequenceType = this.hasSequence(subSequience);
         if (sequenceType) {
           this.onWin(sequenceType);
         }
       });
-    },
+    }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -108,7 +120,7 @@ export default {
 }
 
 .row .cell:last-of-type {
-    border: none;
+  border: none;
 }
 
 .row:first-of-type {
