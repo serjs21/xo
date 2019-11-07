@@ -1,13 +1,17 @@
 <template>
   <div class="board">
-    <div v-for="row in size" v-bind:key="row" class="row">
-    <cell v-for="col in size" 
-    v-bind:key="col" 
-    v-bind:col="col - 1" 
-    v-bind:row="row - 1" 
-    v-bind:setValue="setValue" 
-    v-bind:getValue="getValue"/>
-  </div>
+    <div class="game-board">
+      <div v-for="row in size" v-bind:key="row" class="row">
+      <cell v-for="col in size" 
+      v-bind:key="col" 
+      v-bind:col="col - 1" 
+      v-bind:row="row - 1" 
+      v-bind:setValue="setValue" 
+      v-bind:getValue="getValue"/>
+    </div>
+</div>
+
+  <div class="turn-display">Current turn: <span class="highlight">{{getValueFromTurn()}}</span></div>
 </div>
 </template>
 
@@ -26,6 +30,7 @@ export default {
   },
   data() {
     return {
+      counter: 0,
       oddTurn: true,
       boardState: this.getCleanBoard(),
     }
@@ -34,13 +39,13 @@ export default {
     cell
   },
   methods: {
-    valueToSet() {
-      this.oddTurn = !this.oddTurn;
+    getValueFromTurn() {
       return this.oddTurn ? 'X' : 'O';
     },
 
     setValue(row, col) {
-      this.boardState[row][col] = this.valueToSet();
+      this.boardState[row][col] = this.getValueFromTurn();
+      this.oddTurn = !this.oddTurn;
       this.checkForWin();
     },
     
@@ -78,17 +83,11 @@ export default {
       return map(new Array(this.size), () => new Array(this.size));
     },
 
-    resetBoard() {
-      debugger;
-      this.boardState = this.getCleanBoard();
-    },
-
     checkForWin() {
       [this.getDiagonal(), this.getOtherDiagonal(), ...this.getRows(), ...this.getCols()].forEach(subSequience => {
         const sequenceType = this.hasSequence(subSequience)
         if (sequenceType) {
           this.onWin(sequenceType);
-          this.resetBoard();
         }
       });
     },
@@ -98,12 +97,14 @@ export default {
 
 <style scoped>
 .row {
-  border-left: 2px solid black;
+  width: fit-content;
+  border-top: 2px solid black;
   height: fit-content;
+  flex-direction: row;
 }
 
 .row .cell {
-    border-bottom: 2px solid black;
+  border-right: 2px solid black;
 }
 
 .row .cell:last-of-type {
@@ -115,8 +116,25 @@ export default {
 }
 
 .board {
-  height: 200px;
-  width: 200px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.game-board {
+  display: flex;
+  flex-direction: column;
+}
+
+.turn-display {
+  margin-top: 15px;
+}
+
+.highlight {
+  font-weight: 700;
+  margin-left: 5px;
+  border-bottom: 1px black solid;
 }
 </style>

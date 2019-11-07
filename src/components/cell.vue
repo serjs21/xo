@@ -30,11 +30,12 @@ export default {
 </script>
 
 <style scoped>
+
 .cell {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: orange;
+  font-weight: 800;
   height: 40px;
   width: 40px;
 }
